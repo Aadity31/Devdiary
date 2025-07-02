@@ -1,0 +1,33 @@
+[
+    {
+  "source": "SmartRail",
+  "date": "2025-07-01",
+  "input_text": "Learned about Kruskal's algorithm",
+  "post": "Today I explored Kruskal's algorithm...",
+  "image": "data/image/aadi.jpg",  
+  "description": "Kruskal's algorithm is used for finding the Minimum Spanning Tree...",
+  "tags": ["#DSA", "#Kruskal", "#SmartRail"],
+  "what_is_it": "A greedy algorithm for MST construction."
+},
+{
+  "source": "aaditest",
+  "date": "2025-07-01",
+  "input_text": "Learned about Kruskal's algorithm",
+  "post": "Today I explored Kruskal's algorithm...",
+  "image": "data/image/aadi3.png", 
+  "description": "Kruskal's algorithm is used for finding the Minimum Spanning Tree...",
+  "tags": ["#DSA", "#Kruskal", "#SmartRail"],
+  "what_is_it": "A greedy algorithm for MST construction."
+},
+{
+  "source": "adiitest",
+  "date": "2025-07-01",
+  "input_text": "Learned about Kruskal's algorithm",
+  "post": "Today I explored Kruskal's algorithm...",
+  "image": "data/image/takla.JPG", 
+  "description": "Kruskal's algorithm is used for finding the Minimum Spanning Tree...",
+  "tags": ["#DSA", "#Kruskal", "#SmartRail"],
+  "what_is_it": "A greedy algorithm for MST construction."
+}
+
+]

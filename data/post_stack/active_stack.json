@@ -1,0 +1,68 @@
+[
+  {
+    "type": "summary",
+    "text": "A web-based Hostel Management System that streamlines hostel operations including student registration, room allocation, fee management, and admin tasks.",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "tech",
+    "text": "HTML, CSS, JavaScript, PHP, MySQL, XAMPP",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "How to create a full-stack web application using PHP and MySQL",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Implementing CRUD operations for student and room data",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Session management for login/logout functionality",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Designing responsive front-end interfaces with HTML and CSS",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Connecting frontend forms to backend PHP logic",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Structuring and organizing code using modular PHP includes",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Using MySQL for relational data storage and queries",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Hosting a local development environment with XAMPP",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  },
+  {
+    "type": "learning",
+    "text": "Handling form validation and basic error checking",
+    "from_repo": "Aadity31/Hostel-Management-System",
+    "date_added": "2025-06-30"
+  }
+]
