@@ -83,6 +83,7 @@ def main():
         for idx, post in enumerate(posts):
             source = post.get("source", "Unknown")
             date = post.get("date", "N/A")
+            time = post.get("time","N/A")
             caption = post.get("post", "No caption")
             description = post.get("description", "No description")
             tags = post.get("tags", [])
@@ -90,7 +91,7 @@ def main():
             what_is_it = post.get("what_is_it", "")
 
             # 📸 Side-by-side layout
-            st.markdown(f"### 📌 {source}  ⏰ {date}")
+            st.markdown(f"### 📌 {source}  ⏰ {date} time->{time}")
             col1, col2 = st.columns([1, 2])
 
             with col1:

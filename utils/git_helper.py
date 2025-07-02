@@ -1,1 +1,0 @@
-# Git auto-commit helper
