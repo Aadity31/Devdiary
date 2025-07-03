@@ -1,7 +1,14 @@
-# Ignore Python cache
+# Python bytecode and cache
 __pycache__/
-*.pyc
+*.py[cod]
 
+# Environment files
+.env
 *.env
 
-*.vscode/
+# VS Code settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
