@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "source": "SmartRail",
+    "date": "2025-07-03",
+    "time": "10:30",
+    "input_text": "Learned about Kruskal's algorithm",
+    "post": "Today I explored Kruskal's algorithm — a greedy technique for finding the Minimum Spanning Tree in a graph. 🌿📊 #GraphTheory #DSA",
+    "image": "data/image/developing_complete_web_applications_with_php_handling_backend_logic_and_mysql_managing_data_storage_.png",
+    "description": "Kruskal's algorithm is a popular greedy approach to build the MST by selecting the smallest weight edge that doesn't form a cycle.",
+    "tags": ["#DSA", "#Kruskal", "#SmartRail", "#GraphTheory"],
+    "what_is_it": "A greedy algorithm for MST construction."
+  },
+  {
+    "source": "PortfolioGen",
+    "date": "2025-07-04",
+    "time": "10:30",
+    "input_text": "Deployed personal portfolio site using React and TailwindCSS",
+    "post": "🚀 Just deployed my personal portfolio using React + TailwindCSS! Clean, responsive, and blazing fast. #ReactJS #Tailwind",
+    "image": "data/image/a_comprehensive_set_of_tools_and_languages_for_building_dynamic__database-driven_websites_.png",
+    "description": "A modern portfolio site built with React and TailwindCSS showcasing my work, projects, and resume with a clean UI.",
+    "tags": ["#ReactJS", "#Tailwind", "#Portfolio", "#WebDev"],
+    "what_is_it": "A personal website showcasing projects and skills."
+  },
+  {
+    "source": "AutoForm",
+    "date": "2025-07-05",
+    "time": "10:30",
+    "input_text": "Created an auto form-filler using Python and Selenium",
+    "post": "Built a Python tool that automatically fills out repetitive web forms using Selenium! 💻⚙️ #PythonAutomation",
+    "image": "data/image/a_digital_platform_to_efficiently_manage_all_hostel_operations_from_registration_to_fee_management_.png",
+    "description": "The script uses Selenium to detect form fields and fill them out based on a JSON config. Saves hours of repetitive work.",
+    "tags": ["#Python", "#Automation", "#Selenium", "#Productivity"],
+    "what_is_it": "A script to automate form filling on websites."
+  },
+  {
+    "source": "MLModels",
+    "date": "2025-07-06",
+    "time": "10:30",
+    "input_text": "Trained a Decision Tree classifier on Titanic dataset",
+    "post": "🧠 Trained a Decision Tree model to predict Titanic survival using scikit-learn. Pretty solid accuracy! #MachineLearning",
+    "image": "data/image/a_web-based_platform_to_digitize_and_streamline_hostel_management_processes_.png",
+    "description": "The model uses decision tree splits to predict passenger survival on the Titanic dataset based on age, fare, class, etc.",
+    "tags": ["#ML", "#DecisionTree", "#Titanic", "#ScikitLearn"],
+    "what_is_it": "A classification model using decision trees."
+  }
+]

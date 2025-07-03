@@ -53,17 +53,20 @@ def generate_image(prompt: str, save_path: str):
 
         # Wait for image to appear in button background
         print("⌛ Waiting for image...")
-        WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[aria-label="View output image"]')))
-        time.sleep(5)  # Give some buffer time
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[aria-label="View output image"]')))
+        time.sleep(2)   # Give some buffer time
 
         # Extract blob image and convert
         print("📥 Fetching blob image...")
         data_url = driver.execute_async_script("""
             const done = arguments[0];
             const btn = document.querySelector('button[aria-label="View output image"]');
+            if (!btn) return done(null);
+            
             const style = window.getComputedStyle(btn);
-            const match = style.backgroundImage.match(/url\\("(.+?)"\\)/);
+           const match = style.backgroundImage.match(/url\\("(.+?)"\\)/);
             if (!match) return done(null);
+            
             const blobUrl = match[1];
             fetch(blobUrl)
                 .then(r => r.blob())
@@ -73,6 +76,7 @@ def generate_image(prompt: str, save_path: str):
                     reader.readAsDataURL(b);
                 });
         """)
+
 
         if not data_url or not data_url.startswith("data:image/"):
             print("❌ Failed to convert blob to image.")

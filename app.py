@@ -3,10 +3,13 @@ import subprocess
 import json
 import os
 import time
+from datetime import datetime
 from utils.github_api import get_github_repos
 from utils.post_builder import get_scheduled_posts
 
 IGNORED_FILE = "data/ignored_repos.json"
+SETTINGS_FILE = "data/setting.json"
+SCHEDULE_FILE = "data/post_stack/schedule.json"
 
 def load_ignored():
     if not os.path.exists(IGNORED_FILE):
@@ -18,12 +21,26 @@ def save_ignored(repos):
     with open(IGNORED_FILE, "w") as f:
         json.dump(repos, f, indent=2)
 
-def trigger_scan():
-    try:
-        subprocess.run(["python", "core/task_engine.py"], check=True)
-        st.info("📡 Repo scan triggered.")
-    except Exception as e:
-        st.error(f"⚠️ Error triggering scan: {e}")
+def load_settings():
+    if not os.path.exists(SETTINGS_FILE):
+        return {"schedule_gap_days": 1, "schedule_time": "10:30"}
+    with open(SETTINGS_FILE, "r") as f:
+        return json.load(f)
+
+def save_settings(settings):
+    with open(SETTINGS_FILE, "w") as f:
+        json.dump(settings, f, indent=2)
+
+def delete_post(index):
+    if not os.path.exists(SCHEDULE_FILE):
+        return
+    with open(SCHEDULE_FILE, "r") as f:
+        schedule = json.load(f)
+    if index < len(schedule):
+        schedule.pop(index)
+        with open(SCHEDULE_FILE, "w") as f:
+            json.dump(schedule, f, indent=2)
+        st.success(f"🗑 Post {index + 1} deleted successfully.")
 
 def main():
     st.set_page_config(page_title="DevDiary.AI Admin Panel", layout="wide")
@@ -31,9 +48,19 @@ def main():
     st.markdown("Manage your AI-generated posts and GitHub automation system.")
 
     with st.sidebar:
-        st.header("⚙️ Actions")
-        if st.button("🔄 Trigger Repo Scan"):
-            trigger_scan()
+        st.subheader("🕒 Schedule Settings")
+        settings = load_settings()
+        col1, col2 = st.columns(2)
+        with col1:
+            gap_days = st.number_input("📆 Gap Between Posts (days)", min_value=0, max_value=30, value=settings.get("schedule_gap_days", 1), format="%d")
+        with col2:
+            schedule_time = st.time_input("⏰ Schedule Time", value=datetime.strptime(settings.get("schedule_time", "10:30"), "%H:%M").time())
+
+        if st.button("💾 Save Settings"):
+            settings["schedule_gap_days"] = gap_days
+            settings["schedule_time"] = schedule_time.strftime("%H:%M")
+            save_settings(settings)
+            st.success("✅ Settings saved.")
 
         st.markdown("---")
         st.subheader("📂 GitHub Projects")
@@ -83,15 +110,14 @@ def main():
         for idx, post in enumerate(posts):
             source = post.get("source", "Unknown")
             date = post.get("date", "N/A")
-            time = post.get("time","N/A")
+            time_val = post.get("time","N/A")
             caption = post.get("post", "No caption")
             description = post.get("description", "No description")
             tags = post.get("tags", [])
             image_path = post.get("image", "")
             what_is_it = post.get("what_is_it", "")
 
-            # 📸 Side-by-side layout
-            st.markdown(f"### 📌 {source}  ⏰ {date} time->{time}")
+            st.markdown(f"### 📌 {source}  ⏰ {date} 🕒 {time_val}")
             col1, col2 = st.columns([1, 2])
 
             with col1:
@@ -106,13 +132,10 @@ def main():
                 st.markdown(f"**📝 Description:** {description}")
                 st.markdown(f"**🏷 Tags:** {' '.join(tags)}")
 
-                bcol1, bcol2 = st.columns([1, 1])
-                with bcol1:
-                    if st.button("♻️ Regenerate", key=f"regen_{idx}"):
-                        st.success(f"♻️ Regenerated post {idx+1}")
-                with bcol2:
-                    if st.button("❌ Delete", key=f"delete_{idx}"):
-                        st.warning("🗑 Delete not implemented yet.")
+                if st.button("❌ Delete", key=f"delete_{idx}"):
+                    delete_post(idx)
+                    time.sleep(0.5)
+                    st.rerun()
 
 if __name__ == "__main__":
     main()

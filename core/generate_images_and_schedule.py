@@ -1,87 +1,90 @@
 import os
 import json
-from image_gen import generate_image  # Make sure this function is correctly imported
-from datetime import datetime
+import time
+import base64
+from datetime import datetime, timedelta
+from core.image_gen import generate_image
 
 # === Paths ===
 POST_PROMPT_PATH = "data/post_stack/post_prompt.json"
 SCHEDULE_PATH = "data/post_stack/schedule.json"
+SETTING_PATH = "data/post_stack/setting.json"
 IMAGE_DIR = "data/image"
-os.makedirs(IMAGE_DIR, exist_ok=True)
 
-# === Load Data ===
-def load_post_prompt():
-    if not os.path.exists(POST_PROMPT_PATH):
-        print("❌ No post prompt data found.")
-        return []
-    with open(POST_PROMPT_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+# === Load Settings ===
+with open(SETTING_PATH, "r") as f:
+    settings = json.load(f)
 
-# === Sanitize filename ===
-def safe_filename(name):
-    return "".join(c if c.isalnum() or c in "_-" else "_" for c in name.lower().replace(" ", "_"))
+SCHEDULE_GAP_DAYS = int(settings.get("schedule_gap_days", 0))
+SCHEDULE_TIME_STR = settings.get("schedule_time", "10:00")
 
-# === Main Processing ===
-def process_posts():
-    prompt_data = load_post_prompt()
-    if not prompt_data:
-        print("❌ No post data to process.")
-        return
+# === Load post prompt data ===
+if not os.path.exists(POST_PROMPT_PATH):
+    print("❌ No post_prompt.json found.")
+    exit()
 
+with open(POST_PROMPT_PATH, "r") as f:
+    posts = json.load(f)
+
+if not posts:
+    print("❌ No posts found in post_prompt.json.")
+    exit()
+
+# === Load existing schedule ===
+if os.path.exists(SCHEDULE_PATH):
+    with open(SCHEDULE_PATH, "r") as f:
+        schedule = json.load(f)
+else:
     schedule = []
 
-    for idx, post in enumerate(prompt_data):
-        input_data = post.get("input", {})
-        output_data = post.get("output", {})
+# === Start scheduling ===
+print("\n📆 Starting scheduling process...")
+base_date = datetime.today().date()
 
-        required_keys = ["image", "what_is_it", "post", "description", "tags"]
-        if not all(k in output_data for k in required_keys):
-            print(f"⚠️ Skipping incomplete item {idx + 1}")
-            continue
+for idx, post in enumerate(posts):
+    input_data = post.get("input")
+    output_data = post.get("output")
 
-        image_prompt = output_data["image"]
-        what_is_it = output_data["what_is_it"]
-        image_name = safe_filename(what_is_it) + ".png"
-        image_path = os.path.join(IMAGE_DIR, image_name)
+    if not input_data or not output_data:
+        print(f"⚠️ Skipping incomplete item {idx + 1}")
+        continue
 
-        # 🖼️ Generate image only if not already exists
-        if not os.path.exists(image_path):
-            print(f"🖼️ Generating image {idx + 1}/{len(prompt_data)}: {image_name}")
-            try:
-                generate_image(image_prompt, image_path)
-            except Exception as e:
-                print(f"❌ Failed to generate image for item {idx + 1}: {e}")
-                continue
-        else:
-            print(f"⚠️ Image already exists: {image_name}")
+    # Prepare image
+    image_prompt = output_data.get("image")
+    image_name = output_data.get("what_is_it", f"post_{idx+1}").replace(" ", "_") + ".png"
+    image_path = os.path.join(IMAGE_DIR, image_name)
 
-        # 📝 Create schedule entry
-        schedule.append({
-            "source": input_data.get("from_repo", "unknown"),
-            "date": input_data.get("date_added", datetime.today().strftime("%Y-%m-%d")),
-            "input_text": input_data.get("text", ""),
-            "post": output_data.get("post", ""),
-            "image": image_path.replace("\\", "/"),
-            "description": output_data.get("description", ""),
-            "tags": output_data.get("tags", []),
-            "what_is_it": output_data.get("what_is_it", "")
-        })
+    try:
+        generate_image(image_prompt, image_path)
+    except Exception as e:
+        print(f"❌ Error generating image for item {idx+1}: {e}")
+        continue
 
-    # 💾 Save schedule file
-    with open(SCHEDULE_PATH, "w", encoding="utf-8") as f:
-        json.dump(schedule, f, indent=2, ensure_ascii=False)
+    # Calculate scheduled datetime
+    scheduled_date = base_date + timedelta(days=idx * SCHEDULE_GAP_DAYS)
+    scheduled_time = datetime.strptime(SCHEDULE_TIME_STR, "%H:%M").time()
+    scheduled_datetime = datetime.combine(scheduled_date, scheduled_time)
 
-    print(f"\n✅ Schedule saved to: {SCHEDULE_PATH} ({len(schedule)} items)")
+    schedule.append({
+        "source": input_data.get("from_repo", "unknown"),
+        "date": scheduled_datetime.strftime("%Y-%m-%d"),
+        "time": scheduled_datetime.strftime("%H:%M"),
+        "input_text": input_data.get("text", ""),
+        "post": output_data.get("post", ""),
+        "image": image_path.replace("\\", "/"),
+        "description": output_data.get("description", ""),
+        "tags": output_data.get("tags", []),
+        "what_is_it": output_data.get("what_is_it", "")
+    })
 
-# === Entry Point ===
-if __name__ == "__main__":
-    print("🔁 Triggering image generation and scheduling script...\n")
-    process_posts()
+    print(f"✅ Scheduled post {idx+1} for {scheduled_datetime.strftime('%Y-%m-%d %H:%M')}")
 
-# ✅ Delete post_prompt.json only if scheduling succeeded
-try:
-    if os.path.exists("data/post_stack/post_prompt.json"):
-        os.remove("data/post_stack/post_prompt.json")
-        print("🧹 Deleted post_prompt.json after successful scheduling.")
-except Exception as e:
-    print(f"⚠️ Failed to delete post_prompt.json: {e}")
+# === Save final schedule ===
+with open(SCHEDULE_PATH, "w") as f:
+    json.dump(schedule, f, indent=2)
+
+print(f"\n✅ Schedule saved to: {SCHEDULE_PATH} ({len(schedule)} total items)")
+
+# === Clear post_prompt.json ===
+os.remove(POST_PROMPT_PATH)
+print("🧹 Cleared post_prompt.json after successful scheduling.")

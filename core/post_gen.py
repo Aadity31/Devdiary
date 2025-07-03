@@ -27,7 +27,7 @@ def ensure_stack_has_data():
     stack = load_stack()
     if not stack:
         print("📭 Stack is empty. Running chatgpt_automation.py...")
-        subprocess.run(["python", "chatgpt_automation.py"])
+        subprocess.run(["python","-m","core.chatgpt_automation"])
         stack = load_stack()
     else:
         print("📦 Stack already has data.")
