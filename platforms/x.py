@@ -1,48 +1,82 @@
-import requests
-import webbrowser
+import sys
 import os
-from urllib.parse import urlencode
+import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-# ENV
-CLIENT_ID = os.getenv("x_client_id")
-CLIENT_SECRET = os.getenv("x_client_secret")
-REDIRECT_URI = "http://localhost:8000/callback"
-SCOPES = "tweet.read tweet.write users.read offline.access"
+# Add parent folder to path to import core module
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from core.crome import open_and_run
 
-# Step 1: Get Authorization Code
-params = {
-    "response_type": "code",
-    "client_id": CLIENT_ID,
-    "redirect_uri": REDIRECT_URI,
-    "scope": SCOPES,
-    "state": "state",
-    "code_challenge": "challenge",  # for PKCE
-    "code_challenge_method": "plain"
-}
-auth_url = f"https://twitter.com/i/oauth2/authorize?{urlencode(params)}"
-print(f"🔗 Open this URL in browser: {auth_url}")
-webbrowser.open(auth_url)
+# === Action to run on X.com ===
+def my_action(driver, post_data):
+    wait = WebDriverWait(driver, 20)
 
-# Step 2: After redirect, you'll get ?code= in browser → paste here
-auth_code = input("📥 Enter the authorization code from the URL: ")
+    print("[→] Waiting for page to load...")
+    try:
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+        print("[✓] Page loaded.")
+    except Exception as e:
+        print(f"[✗] Page didn't load: {e}")
+        return
 
-# Step 3: Exchange code for access_token
-token_resp = requests.post("https://api.twitter.com/2/oauth2/token", data={
-    "code": auth_code,
-    "grant_type": "authorization_code",
-    "client_id": CLIENT_ID,
-    "redirect_uri": REDIRECT_URI,
-    "code_verifier": "challenge"  # same as above
-}, auth=(CLIENT_ID, CLIENT_SECRET))
+    # Type Tweet content
+    try:
+        print("[→] Looking for tweet box...")
+        tweet_box = wait.until(EC.presence_of_element_located((
+            By.CSS_SELECTOR, "div[aria-label='Tweet text'], div[aria-multiline='true']"
+        )))
+        tweet_box.click()
+        time.sleep(1)
 
-access_token = token_resp.json().get("access_token")
-print("🔐 Access Token:", access_token)
+        full_text = post_data['post'] + '\n' + ' '.join(post_data['tags'])
+        tweet_box.send_keys(full_text)
+        time.sleep(1)
+        tweet_box.send_keys(Keys.ESCAPE)  # Dismiss suggestions
+        print("[✓] Tweet content typed and popup closed.")
+    except Exception as e:
+        print(f"[✗] Could not type tweet: {e}")
+        return
 
-# Step 4: Post Tweet using v2
-tweet_resp = requests.post(
-    "https://api.twitter.com/2/tweets",
-    headers={"Authorization": f"Bearer {access_token}", "Content-Type": "application/json"},
-    json={"text": "🚀 DevDiary tweet via X API v2 OAuth2 flow!"}
-)
+    # Upload image (if exists)
+    if os.path.exists(post_data['image']):
+        try:
+            print("[→] Uploading image...")
+            file_input = driver.find_element(By.XPATH, "//input[@type='file']")
+            file_input.send_keys(os.path.abspath(post_data['image']))
+            print("[✓] Image uploaded.")
+            time.sleep(3)
+        except Exception as e:
+            print(f"[!] Failed to upload image: {e}")
+    else:
+        print(f"[!] Image not found: {post_data['image']}")
 
-print("✅ Tweet Response:", tweet_resp.status_code, tweet_resp.text)
+    # Post Button Click
+    try:
+        print("[→] Looking for Post button...")
+        try:
+            post_button = wait.until(EC.element_to_be_clickable((
+                By.XPATH, "//div[@data-testid='tweetButtonInline']"
+            )))
+        except:
+            print("[!] Fallback to full XPath.")
+            post_button = wait.until(EC.element_to_be_clickable((
+                By.XPATH, "/html/body/div[1]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[2]/div[2]/div/div/div/button"
+            )))
+
+        try:
+            post_button.click()
+            print("🚀 Tweet posted using .click().")
+        except Exception:
+            driver.execute_script("arguments[0].click();", post_button)
+            print("🚀 Tweet posted using JavaScript click.")
+
+    except Exception as e:
+        print(f"[✗] Failed to click Post button: {e}")
+
+# === Direct run disabled ===
+# All execution should come via main.py or test wrapper
+if __name__ == "__main__":
+    print("[✋] Please run this via `main.py`, not directly.")

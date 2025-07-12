@@ -8,11 +8,27 @@ from core.image_gen import generate_image
 # === Paths ===
 POST_PROMPT_PATH = "data/post_stack/post_prompt.json"
 SCHEDULE_PATH = "data/post_stack/schedule.json"
-SETTING_PATH = "data/post_stack/setting.json"
+SETTING_PATH = "data/setting.json"
 IMAGE_DIR = "data/image"
 
+# === Emoji remover (optional)
+import re
+def remove_emojis(text):
+    emoji_pattern = re.compile(
+        "["
+        "\U0001F600-\U0001F64F"
+        "\U0001F300-\U0001F5FF"
+        "\U0001F680-\U0001F6FF"
+        "\U0001F1E0-\U0001F1FF"
+        "\U00002700-\U000027BF"
+        "\U0001F900-\U0001F9FF"
+        "\U0001FA70-\U0001FAFF"
+        "\U00002600-\U000026FF"
+        "]+", flags=re.UNICODE)
+    return emoji_pattern.sub(r'', text)
+
 # === Load Settings ===
-with open(SETTING_PATH, "r") as f:
+with open(SETTING_PATH, "r", encoding="utf-8") as f:
     settings = json.load(f)
 
 SCHEDULE_GAP_DAYS = int(settings.get("schedule_gap_days", 0))
@@ -23,7 +39,7 @@ if not os.path.exists(POST_PROMPT_PATH):
     print("❌ No post_prompt.json found.")
     exit()
 
-with open(POST_PROMPT_PATH, "r") as f:
+with open(POST_PROMPT_PATH, "r", encoding="utf-8") as f:
     posts = json.load(f)
 
 if not posts:
@@ -32,7 +48,7 @@ if not posts:
 
 # === Load existing schedule ===
 if os.path.exists(SCHEDULE_PATH):
-    with open(SCHEDULE_PATH, "r") as f:
+    with open(SCHEDULE_PATH, "r", encoding="utf-8") as f:
         schedule = json.load(f)
 else:
     schedule = []
@@ -50,7 +66,7 @@ for idx, post in enumerate(posts):
         continue
 
     # Prepare image
-    image_prompt = output_data.get("image")
+    image_prompt = remove_emojis(output_data.get("image", ""))
     image_name = output_data.get("what_is_it", f"post_{idx+1}").replace(" ", "_") + ".png"
     image_path = os.path.join(IMAGE_DIR, image_name)
 
@@ -69,19 +85,20 @@ for idx, post in enumerate(posts):
         "source": input_data.get("from_repo", "unknown"),
         "date": scheduled_datetime.strftime("%Y-%m-%d"),
         "time": scheduled_datetime.strftime("%H:%M"),
-        "input_text": input_data.get("text", ""),
-        "post": output_data.get("post", ""),
+        "input_text": remove_emojis(input_data.get("text", "")),
+        "type":remove_emojis(input_data.get("type","")),
+        "post": remove_emojis(output_data.get("post", "")),
         "image": image_path.replace("\\", "/"),
-        "description": output_data.get("description", ""),
-        "tags": output_data.get("tags", []),
-        "what_is_it": output_data.get("what_is_it", "")
+        "description": remove_emojis(output_data.get("description", "")),
+        "tags": [remove_emojis(tag) for tag in output_data.get("tags", [])],
+        "what_is_it": remove_emojis(output_data.get("what_is_it", ""))
     })
 
     print(f"✅ Scheduled post {idx+1} for {scheduled_datetime.strftime('%Y-%m-%d %H:%M')}")
 
 # === Save final schedule ===
-with open(SCHEDULE_PATH, "w") as f:
-    json.dump(schedule, f, indent=2)
+with open(SCHEDULE_PATH, "w", encoding="utf-8") as f:
+    json.dump(schedule, f, indent=2, ensure_ascii=False)
 
 print(f"\n✅ Schedule saved to: {SCHEDULE_PATH} ({len(schedule)} total items)")
 

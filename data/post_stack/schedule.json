@@ -1,46 +1,121 @@
 [
   {
-    "source": "SmartRail",
-    "date": "2025-07-03",
-    "time": "10:30",
-    "input_text": "Learned about Kruskal's algorithm",
-    "post": "Today I explored Kruskal's algorithm — a greedy technique for finding the Minimum Spanning Tree in a graph. 🌿📊 #GraphTheory #DSA",
-    "image": "data/image/developing_complete_web_applications_with_php_handling_backend_logic_and_mysql_managing_data_storage_.png",
-    "description": "Kruskal's algorithm is a popular greedy approach to build the MST by selecting the smallest weight edge that doesn't form a cycle.",
-    "tags": ["#DSA", "#Kruskal", "#SmartRail", "#GraphTheory"],
-    "what_is_it": "A greedy algorithm for MST construction."
-  },
-  {
-    "source": "PortfolioGen",
-    "date": "2025-07-04",
-    "time": "10:30",
-    "input_text": "Deployed personal portfolio site using React and TailwindCSS",
-    "post": "🚀 Just deployed my personal portfolio using React + TailwindCSS! Clean, responsive, and blazing fast. #ReactJS #Tailwind",
-    "image": "data/image/a_comprehensive_set_of_tools_and_languages_for_building_dynamic__database-driven_websites_.png",
-    "description": "A modern portfolio site built with React and TailwindCSS showcasing my work, projects, and resume with a clean UI.",
-    "tags": ["#ReactJS", "#Tailwind", "#Portfolio", "#WebDev"],
-    "what_is_it": "A personal website showcasing projects and skills."
-  },
-  {
-    "source": "AutoForm",
+    "source": "Aadity31/discord-bot",
     "date": "2025-07-05",
-    "time": "10:30",
-    "input_text": "Created an auto form-filler using Python and Selenium",
-    "post": "Built a Python tool that automatically fills out repetitive web forms using Selenium! 💻⚙️ #PythonAutomation",
-    "image": "data/image/a_digital_platform_to_efficiently_manage_all_hostel_operations_from_registration_to_fee_management_.png",
-    "description": "The script uses Selenium to detect form fields and fill them out based on a JSON config. Saves hours of repetitive work.",
-    "tags": ["#Python", "#Automation", "#Selenium", "#Productivity"],
-    "what_is_it": "A script to automate form filling on websites."
+    "time": "07:00",
+    "input_text": "This project is a customizable Discord bot that can perform various utility functions for servers, such as moderating, responding to user commands, and interacting with users in real-time using the Discord API.",
+    "post": " Just launched my customizable Discord bot! From real-time interaction to powerful moderation features, it’s built to bring smart utility to any server. Built with Python and the Discord API. ",
+    "image": "data/image/A_Discord_bot_that_performs_real-time_moderation_and_utility_tasks_using_the_Discord_API..png",
+    "description": "This Discord bot project is designed to enhance any server with utility functions like moderation, command handling, and real-time user interaction. Built with Python and the Discord API, it's a flexible and customizable tool for managing online communities more efficiently.",
+    "tags": [
+      "#Python",
+      "#DiscordBot",
+      "#OpenSource",
+      "#BackendDevelopment",
+      "#Automation"
+    ],
+    "what_is_it": "A Discord bot that performs real-time moderation and utility tasks using the Discord API."
   },
   {
-    "source": "MLModels",
-    "date": "2025-07-06",
-    "time": "10:30",
-    "input_text": "Trained a Decision Tree classifier on Titanic dataset",
-    "post": "🧠 Trained a Decision Tree model to predict Titanic survival using scikit-learn. Pretty solid accuracy! #MachineLearning",
-    "image": "data/image/a_web-based_platform_to_digitize_and_streamline_hostel_management_processes_.png",
-    "description": "The model uses decision tree splits to predict passenger survival on the Titanic dataset based on age, fare, class, etc.",
-    "tags": ["#ML", "#DecisionTree", "#Titanic", "#ScikitLearn"],
-    "what_is_it": "A classification model using decision trees."
+    "source": "Aadity31/discord-bot",
+    "date": "2025-07-08",
+    "time": "07:00",
+    "input_text": "Python, discord.py, dotenv",
+    "post": " Recently explored the powerful trio: Python , discord.py , and dotenv . Building bots just got cleaner, smarter, and more secure!",
+    "image": "data/image/A_tech_stack_for_building_secure,_interactive_Discord_bots_using_Python..png",
+    "description": "Dove into building Discord bots using Python and the discord.py library, while securing sensitive tokens with dotenv. This setup creates a clean development workflow and keeps API keys safe. Ideal for scalable bot development and collaborative open-source projects!",
+    "tags": [
+      "#Python",
+      "#discordpy",
+      "#Dotenv",
+      "#BotDevelopment",
+      "#CodingJourney"
+    ],
+    "what_is_it": "A tech stack for building secure, interactive Discord bots using Python."
+  },
+  {
+    "source": "Aadity31/discord-bot",
+    "date": "2025-07-11",
+    "time": "07:00",
+    "input_text": "How to set up and authenticate a bot using the Discord API and token management",
+    "post": " Just learned how to bring a Discord bot to life with proper authentication using the Discord API and secure token management. Hello, automation! ️",
+    "image": "data/image/A_process_for_securely_authenticating_bots_on_Discord_using_tokens_and_the_Discord_API..png",
+    "description": "I’ve recently learned how to securely set up and authenticate a bot using the Discord API. With token management and environment variables, the bot can now join servers and interact safely—protecting sensitive data while enabling automation and real-time interactions.",
+    "tags": [
+      "#DiscordAPI",
+      "#BotAuthentication",
+      "#Python",
+      "#CyberSecurity",
+      "#DevLearning"
+    ],
+    "what_is_it": "A process for securely authenticating bots on Discord using tokens and the Discord API."
+  },
+  {
+    "source": "Aadity31/discord-bot",
+    "date": "2025-07-14",
+    "time": "07:00",
+    "input_text": "Implementing command handling with decorators in discord.py",
+    "post": " Mastered command handling in discord.py using decorators! Now my bot responds to commands with clean, elegant code. ",
+    "image": "data/image/A_method_of_structuring_bot_commands_in_discord.py_using_Python_decorators_for_cleaner_and_modular_code..png",
+    "description": "I recently explored how to implement command handling using decorators in discord.py. This approach makes code more readable, modular, and scalable by associating functions directly with commands—allowing the bot to respond efficiently to user inputs in real time.",
+    "tags": [
+      "#Python",
+      "#discordpy",
+      "#BotDevelopment",
+      "#CleanCode",
+      "#LearningInPublic"
+    ],
+    "what_is_it": "A method of structuring bot commands in discord.py using Python decorators for cleaner and modular code."
+  },
+  {
+    "source": "Aadity31/discord-bot",
+    "date": "2025-07-17",
+    "time": "07:00",
+    "input_text": "Using environment variables securely with dotenv for sensitive data like tokens",
+    "post": " Just leveled up my security game by using environment variables with dotenv to protect sensitive data like API tokens. No more hardcoding secrets! ",
+    "image": "data/image/A_secure_way_to_manage_sensitive_configuration_data_using_environment_variables_and_the_dotenv_library..png",
+    "description": "I’ve learned to securely manage sensitive data like API tokens using environment variables with the dotenv package. This approach keeps secrets out of source code and makes projects safer and more professional—especially important when working with APIs or deploying bots.",
+    "tags": [
+      "#Python",
+      "#dotenv",
+      "#CyberSecurity",
+      "#CleanCode",
+      "#Learning"
+    ],
+    "what_is_it": "A secure way to manage sensitive configuration data using environment variables and the dotenv library."
+  },
+  {
+    "source": "Aadity31/discord-bot",
+    "date": "2025-07-20",
+    "time": "07:00",
+    "input_text": "Creating modular and scalable bot commands using Python functions",
+    "post": " Just explored how to create modular and scalable bot commands using Python functions! Cleaner structure, easier maintenance, and future-ready bots. ",
+    "image": "data/image/Gemini_Generated_Image_mul2zgmul2zgmul2.png",
+    "description": "I recently learned how to build modular and scalable bot commands by organizing logic into separate Python functions. This practice improves code readability, simplifies debugging, and prepares bots for future features without the chaos of a monolithic script.",
+    "tags": [
+      "#Python",
+      "#BotDevelopment",
+      "#CleanArchitecture",
+      "#ScalableCode",
+      "#Learning"
+    ],
+    "what_is_it": "A method to organize bot commands into separate Python functions for scalability and maintainability."
+  },
+  {
+    "source": "Aadity31/discord-bot",
+    "date": "2025-07-23",
+    "time": "07:00",
+    "input_text": "Handling real-time asynchronous events in Discord using asyncio",
+    "post": " Just unlocked real-time magic with asyncio in Discord bots! Now my bot reacts instantly to events like messages, joins, and more—all thanks to asynchronous event handling. ",
+    "image": "data/image/A_technique_for_managing_real-time_Discord_events_asynchronously_using_Python's_asyncio_library..png",
+    "description": "I’ve learned how to handle real-time asynchronous events in Discord using Python’s asyncio. This allows the bot to respond immediately to events like messages or user joins without blocking other tasks—making it fast, efficient, and responsive in multi-user environments.",
+    "tags": [
+      "#Python",
+      "#asyncio",
+      "#DiscordBot",
+      "#RealTimeApps",
+      "#Learning"
+    ],
+    "what_is_it": "A technique for managing real-time Discord events asynchronously using Python's asyncio library."
   }
 ]

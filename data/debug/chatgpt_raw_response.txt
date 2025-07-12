@@ -1,0 +1,11 @@
+{
+"summary": "This project is a customizable Discord bot that can perform various utility functions for servers, such as moderating, responding to user commands, and interacting with users in real-time using the Discord API.",
+"technologies": ["Python", "discord.py", "dotenv"],
+"learning_topics": [
+"How to set up and authenticate a bot using the Discord API and token management",
+"Implementing command handling with decorators in discord.py",
+"Using environment variables securely with dotenv for sensitive data like tokens",
+"Creating modular and scalable bot commands using Python functions",
+"Handling real-time asynchronous events in Discord using asyncio"
+]
+}

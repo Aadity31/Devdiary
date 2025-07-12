@@ -263,4 +263,5 @@ if __name__ == "__main__":
 
         # ✅ Auto-run image generation and scheduling
         print("\n🔁 Triggering image generation and scheduling script...\n")
-        subprocess.run(["python", "core/generate_images_and_schedule.py"])
+        subprocess.run(["python", "-m", "core.generate_images_and_schedule"])
+

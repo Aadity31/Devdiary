@@ -5,7 +5,7 @@ import os
 import time
 from datetime import datetime
 from utils.github_api import get_github_repos
-from utils.post_builder import get_scheduled_posts
+from utils.post_builder import get_scheduled_posts, reschedule_posts
 
 IGNORED_FILE = "data/ignored_repos.json"
 SETTINGS_FILE = "data/setting.json"
@@ -34,13 +34,25 @@ def save_settings(settings):
 def delete_post(index):
     if not os.path.exists(SCHEDULE_FILE):
         return
-    with open(SCHEDULE_FILE, "r") as f:
+
+    with open(SCHEDULE_FILE, "r", encoding="utf-8") as f:
         schedule = json.load(f)
+
     if index < len(schedule):
+        # ✅ Delete image file if exists
+        image_path = schedule[index].get("image", "")
+        if image_path and os.path.exists(image_path):
+            os.remove(image_path)
+            print(f"🗑 Deleted image: {image_path}")
+
+        # ✅ Remove the post
         schedule.pop(index)
-        with open(SCHEDULE_FILE, "w") as f:
-            json.dump(schedule, f, indent=2)
-        st.success(f"🗑 Post {index + 1} deleted successfully.")
+
+        with open(SCHEDULE_FILE, "w", encoding="utf-8") as f:
+            json.dump(schedule, f, indent=2, ensure_ascii=False)
+
+        st.success(f"🗑 Post {index + 1} and its image deleted successfully.")
+
 
 def main():
     st.set_page_config(page_title="DevDiary.AI Admin Panel", layout="wide")
@@ -57,10 +69,16 @@ def main():
             schedule_time = st.time_input("⏰ Schedule Time", value=datetime.strptime(settings.get("schedule_time", "10:30"), "%H:%M").time())
 
         if st.button("💾 Save Settings"):
+            old_gap = settings.get("schedule_gap_days", 1)
             settings["schedule_gap_days"] = gap_days
             settings["schedule_time"] = schedule_time.strftime("%H:%M")
             save_settings(settings)
             st.success("✅ Settings saved.")
+            if gap_days != old_gap:
+                reschedule_posts(gap_days, settings["schedule_time"])
+                st.success("📆 All posts rescheduled with new gap.")
+
+
 
         st.markdown("---")
         st.subheader("📂 GitHub Projects")
