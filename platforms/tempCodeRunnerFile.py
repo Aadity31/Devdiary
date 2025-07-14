@@ -1,1 +1,0 @@
-By.XPATH, "//div[@data-testid='tweetButtonInline']

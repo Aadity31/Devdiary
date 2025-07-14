@@ -1,79 +1,104 @@
-import sys
 import os
+import io
 import time
+import keyboard
+from PIL import Image
+import win32clipboard
+from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-# === Action to run on X.com ===
-def my_action(driver, post_data):
-    wait = WebDriverWait(driver, 20)
-
-    print("[→] Waiting for page to load...")
+def copy_image_to_clipboard(image_path):
     try:
-        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-        print("[✓] Page loaded.")
+        image = Image.open(image_path).convert("RGB")
+        output = io.BytesIO()
+        image.save(output, "BMP")
+        bmp_data = output.getvalue()[14:]
+        win32clipboard.OpenClipboard()
+        win32clipboard.EmptyClipboard()
+        win32clipboard.SetClipboardData(win32clipboard.CF_DIB, bmp_data)
+        win32clipboard.CloseClipboard()
+        print(f"📋 Image copied to clipboard: {image_path}")
     except Exception as e:
-        print(f"[✗] Page didn't load: {e}")
-        return
+        print(f"[✗] Clipboard copy failed: {e}")
 
-    # Type Tweet content
-    try:
-        print("[→] Looking for tweet box...")
-        tweet_box = wait.until(EC.presence_of_element_located((
-            By.CSS_SELECTOR, "div[aria-label='Tweet text'], div[aria-multiline='true']"
-        )))
-        tweet_box.click()
+
+def simulate_ctrl_v():
+    print("[→] Simulating Ctrl+V...")
+    keyboard.press_and_release('ctrl+v')
+    print("[✓] Ctrl+V simulated")
+
+
+def post_to_linkedin(driver, post_data):
+    wait = WebDriverWait(driver, 25)
+    editor_xpath = "//div[contains(@role,'textbox') and contains(@class,'ql-editor')]"
+
+    print("[→] Waiting for LinkedIn to load...")
+    wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+    print("[✓] LinkedIn loaded.")
+
+    print("[→] Clicking 'Start a post'...")
+    start_post_btn = wait.until(EC.element_to_be_clickable((
+        By.XPATH, "//button[.//strong[text()='Start a post']]"
+    )))
+    driver.execute_script("arguments[0].click();", start_post_btn)
+    print("[✓] Post dialog opened.")
+    time.sleep(2)
+
+    editor = wait.until(EC.presence_of_element_located((By.XPATH, editor_xpath)))
+    editor.click()
+    time.sleep(1)
+
+    # Step 1: Type post content
+    full_text = post_data['post'] + "\n\n" + ' '.join(post_data.get('tags', []))
+    editor.send_keys(full_text)
+    print("[✓] Post text and tags typed.")
+    time.sleep(3)  # Extended wait to ensure box is fully ready
+
+    # Step 2: Copy + Paste Image from Clipboard
+    if post_data.get("image"):
+        print("[→] Copying image to clipboard...")
+        copy_image_to_clipboard(post_data["image"])
         time.sleep(1)
 
-        full_text = post_data['post'] + '\n' + ' '.join(post_data['tags'])
-        tweet_box.send_keys(full_text)
+        # Refocus before pasting
+        editor.click()
+        driver.execute_script("arguments[0].focus();", editor)
         time.sleep(1)
-        tweet_box.send_keys(Keys.ESCAPE)  # Dismiss suggestions
-        print("[✓] Tweet content typed and popup closed.")
-    except Exception as e:
-        print(f"[✗] Could not type tweet: {e}")
-        return
 
-    # Upload image (if exists)
-    if os.path.exists(post_data['image']):
-        try:
-            print("[→] Uploading image...")
-            file_input = driver.find_element(By.XPATH, "//input[@type='file']")
-            file_input.send_keys(os.path.abspath(post_data['image']))
-            print("[✓] Image uploaded.")
-            time.sleep(3)
-        except Exception as e:
-            print(f"[!] Failed to upload image: {e}")
-    else:
-        print(f"[!] Image not found: {post_data['image']}")
+        # Paste twice as backup
+        simulate_ctrl_v()
+        time.sleep(2)
+        simulate_ctrl_v()
+        print("[✓] Image paste triggered.")
+        time.sleep(3)  # Wait for image to finish uploading/rendering
 
-    # Post Button Click
-    try:
-        print("[→] Looking for Post button...")
-        try:
-            post_button = wait.until(EC.element_to_be_clickable((
-                By.XPATH, "//div[@data-testid='tweetButtonInline']"
-            )))
-        except:
-            print("[!] Fallback to full XPath.")
-            post_button = wait.until(EC.element_to_be_clickable((
-                By.XPATH, "/html/body/div[1]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[2]/div[2]/div/div/div/button"
-            )))
+    # Step 3: Click Post
+    print("[→] Clicking Post button...")
+    post_btn = wait.until(EC.element_to_be_clickable((
+        By.XPATH, "//button[.//span[text()='Post']]"
+    )))
+    driver.execute_script("arguments[0].click();", post_btn)
+    print("🚀 Post submitted successfully ✅")
 
-        try:
-            post_button.click()
-            print("🚀 Tweet posted using .click().")
-        except Exception:
-            driver.execute_script("arguments[0].click();", post_button)
-            print("🚀 Tweet posted using JavaScript click.")
 
-    except Exception as e:
-        print(f"[✗] Failed to click Post button: {e}")
-
-# === Direct run disabled ===
-# All execution should come via main.py or test wrapper
 if __name__ == "__main__":
-    print("[✋] Please run this via `main.py`, not directly.")
+    post_data = {
+        "post": "📢 This post was auto-generated using clipboard-based image paste after adding text first!",
+        "tags": ["#AI", "#DevDiary", "#LinkedInAutomation"],
+        "image": "data/image/A_tech_stack_for_building_secure,_interactive_Discord_bots_using_Python..png"
+    }
+
+    chrome_options = Options()
+    chrome_options.add_experimental_option("debuggerAddress", "localhost:9222")
+    driver = webdriver.Chrome(service=Service(), options=chrome_options)
+
+    try:
+        post_to_linkedin(driver, post_data)
+    finally:
+        driver.quit()
+        print("[✓] Chrome driver closed.")

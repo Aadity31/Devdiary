@@ -1,44 +1,19 @@
 [
   {
-    "type": "summary",
-    "text": "This project is a customizable Discord bot that can perform various utility functions for servers, such as moderating, responding to user commands, and interacting with users in real-time using the Discord API.",
-    "from_repo": "Aadity31/discord-bot",
-    "date_added": "2025-07-03"
-  },
-  {
-    "type": "tech",
-    "text": "Python, discord.py, dotenv",
-    "from_repo": "Aadity31/discord-bot",
-    "date_added": "2025-07-03"
-  },
-  {
-    "type": "learning",
-    "text": "How to set up and authenticate a bot using the Discord API and token management",
-    "from_repo": "Aadity31/discord-bot",
-    "date_added": "2025-07-03"
-  },
-  {
-    "type": "learning",
-    "text": "Implementing command handling with decorators in discord.py",
-    "from_repo": "Aadity31/discord-bot",
-    "date_added": "2025-07-03"
-  },
-  {
-    "type": "learning",
-    "text": "Using environment variables securely with dotenv for sensitive data like tokens",
-    "from_repo": "Aadity31/discord-bot",
-    "date_added": "2025-07-03"
-  },
-  {
-    "type": "learning",
-    "text": "Creating modular and scalable bot commands using Python functions",
-    "from_repo": "Aadity31/discord-bot",
-    "date_added": "2025-07-03"
-  },
-  {
-    "type": "learning",
-    "text": "Handling real-time asynchronous events in Discord using asyncio",
-    "from_repo": "Aadity31/discord-bot",
-    "date_added": "2025-07-03"
+    "source": "Aadity31/discord-bot",
+    "date": "2025-07-14",
+    "time": "07:00",
+    "input_text": "This project is a customizable Discord bot that can perform various utility functions for servers, such as moderating, responding to user commands, and interacting with users in real-time using the Discord API.",
+    "post": " Just launched my customizable Discord bot! From real-time interaction to powerful moderation features, it\u2019s built to bring smart utility to any server. Built with Python and the Discord API. ",
+    "image": "data/image/A_tech_stack_for_building_secure,_interactive_Discord_bots_using_Python..png",
+    "description": "This Discord bot project is designed to enhance any server with utility functions like moderation, command handling, and real-time user interaction. Built with Python and the Discord API, it's a flexible and customizable tool for managing online communities more efficiently.",
+    "tags": [
+      "#Python",
+      "#DiscordBot",
+      "#OpenSource",
+      "#BackendDevelopment",
+      "#Automation"
+    ],
+    "what_is_it": "A Discord bot that performs real-time moderation and utility tasks using the Discord API."
   }
 ]

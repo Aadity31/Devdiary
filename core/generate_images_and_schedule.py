@@ -81,7 +81,7 @@ for idx, post in enumerate(posts):
     scheduled_time = datetime.strptime(SCHEDULE_TIME_STR, "%H:%M").time()
     scheduled_datetime = datetime.combine(scheduled_date, scheduled_time)
 
-    schedule.append({
+    schedule.insert(0,{
         "source": input_data.get("from_repo", "unknown"),
         "date": scheduled_datetime.strftime("%Y-%m-%d"),
         "time": scheduled_datetime.strftime("%H:%M"),

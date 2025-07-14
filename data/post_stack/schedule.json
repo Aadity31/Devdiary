@@ -1,11 +1,11 @@
 [
   {
     "source": "Aadity31/discord-bot",
-    "date": "2025-07-05",
+    "date": "2025-07-14",
     "time": "07:00",
     "input_text": "This project is a customizable Discord bot that can perform various utility functions for servers, such as moderating, responding to user commands, and interacting with users in real-time using the Discord API.",
     "post": " Just launched my customizable Discord bot! From real-time interaction to powerful moderation features, it’s built to bring smart utility to any server. Built with Python and the Discord API. ",
-    "image": "data/image/A_Discord_bot_that_performs_real-time_moderation_and_utility_tasks_using_the_Discord_API..png",
+    "image": "data/image/A_tech_stack_for_building_secure,_interactive_Discord_bots_using_Python..png",
     "description": "This Discord bot project is designed to enhance any server with utility functions like moderation, command handling, and real-time user interaction. Built with Python and the Discord API, it's a flexible and customizable tool for managing online communities more efficiently.",
     "tags": [
       "#Python",
@@ -18,7 +18,7 @@
   },
   {
     "source": "Aadity31/discord-bot",
-    "date": "2025-07-08",
+    "date": "2025-07-16",
     "time": "07:00",
     "input_text": "Python, discord.py, dotenv",
     "post": " Recently explored the powerful trio: Python , discord.py , and dotenv . Building bots just got cleaner, smarter, and more secure!",
@@ -35,7 +35,7 @@
   },
   {
     "source": "Aadity31/discord-bot",
-    "date": "2025-07-11",
+    "date": "2025-07-19",
     "time": "07:00",
     "input_text": "How to set up and authenticate a bot using the Discord API and token management",
     "post": " Just learned how to bring a Discord bot to life with proper authentication using the Discord API and secure token management. Hello, automation! ️",
@@ -52,7 +52,7 @@
   },
   {
     "source": "Aadity31/discord-bot",
-    "date": "2025-07-14",
+    "date": "2025-07-22",
     "time": "07:00",
     "input_text": "Implementing command handling with decorators in discord.py",
     "post": " Mastered command handling in discord.py using decorators! Now my bot responds to commands with clean, elegant code. ",
@@ -69,7 +69,7 @@
   },
   {
     "source": "Aadity31/discord-bot",
-    "date": "2025-07-17",
+    "date": "2025-07-25",
     "time": "07:00",
     "input_text": "Using environment variables securely with dotenv for sensitive data like tokens",
     "post": " Just leveled up my security game by using environment variables with dotenv to protect sensitive data like API tokens. No more hardcoding secrets! ",
@@ -86,7 +86,7 @@
   },
   {
     "source": "Aadity31/discord-bot",
-    "date": "2025-07-20",
+    "date": "2025-07-28",
     "time": "07:00",
     "input_text": "Creating modular and scalable bot commands using Python functions",
     "post": " Just explored how to create modular and scalable bot commands using Python functions! Cleaner structure, easier maintenance, and future-ready bots. ",
@@ -103,7 +103,7 @@
   },
   {
     "source": "Aadity31/discord-bot",
-    "date": "2025-07-23",
+    "date": "2025-07-31",
     "time": "07:00",
     "input_text": "Handling real-time asynchronous events in Discord using asyncio",
     "post": " Just unlocked real-time magic with asyncio in Discord bots! Now my bot reacts instantly to events like messages, joins, and more—all thanks to asynchronous event handling. ",
